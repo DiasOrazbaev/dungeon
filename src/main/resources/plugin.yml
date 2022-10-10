@@ -1,0 +1,4 @@
+name: Dungeon Dungeon And More Dungeons
+version: '${project.version}'
+main: kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons
+api-version: 1.19
