@@ -53,7 +53,7 @@ public class AuthCore implements Listener {
         cancelLoginTask(p);
         p.sendMessage("Registering you");
         Bukkit.getScheduler().scheduleSyncDelayedTask(DungeonDungeonAndMoreDungeons.plugin, () -> {
-            DatabaseManipulation.registerPlayer(p,pass);
+            DatabaseManipulation.registerPlayer(p, pass);
             logIn(p);
             p.sendMessage("Registered successfully");
         }, 20L);
@@ -71,39 +71,25 @@ public class AuthCore implements Listener {
 
     public static void cancelRegisterTask(Player p) {
         if (task.containsKey(p)) {
-            Bukkit.getScheduler().cancelTask((Integer)task.get(p));
+            Bukkit.getScheduler().cancelTask(task.get(p));
             task.remove(p);
         }
     }
 
     public static void cancelLoginTask(Player p) {
         if (task.containsKey(p)) {
-            Bukkit.getScheduler().cancelTask((Integer)task.get(p));
+            Bukkit.getScheduler().cancelTask(task.get(p));
             task.remove(p);
         }
     }
 
     public static void registerRepeating(final Player p) {
-        int i = Bukkit.getScheduler().scheduleSyncRepeatingTask(DungeonDungeonAndMoreDungeons.plugin, new Runnable() {
-            @Override
-            public void run() {
-                p.sendMessage("register repeating message");
-
-            }
-        }, 0L, 20000);
-        task.put(p,i);
+        int i = Bukkit.getScheduler().scheduleSyncRepeatingTask(DungeonDungeonAndMoreDungeons.plugin, () -> p.sendMessage("register repeating message"), 0L, 20000);
+        task.put(p, i);
     }
 
     public static void loginRepeating(final Player p) {
-        int i = Bukkit.getScheduler().scheduleSyncRepeatingTask(DungeonDungeonAndMoreDungeons.plugin, new Runnable() {
-            @Override
-            public void run() {
-                p.sendMessage("login repeating message");
-            }
-        }, 0L, 20000);
-        task.put(p,i);
+        int i = Bukkit.getScheduler().scheduleSyncRepeatingTask(DungeonDungeonAndMoreDungeons.plugin, () -> p.sendMessage("login repeating message"), 0L, 20000);
+        task.put(p, i);
     }
-
-
 }
-
