@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
+
 public class LoginCMD implements CommandExecutor {
 
     public LoginCMD() {
@@ -15,23 +17,21 @@ public class LoginCMD implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+        if (sender instanceof Player p) {
             if (label.equalsIgnoreCase("login")) {
                 p.sendMessage("/login <password>");
             }
 
             if (args.length == 1 && DatabaseManipulation.isRegistered(p.getName()) && !AuthCore.isLogged(p)) {
                 String pass = SHA256.hash(args[0]);
-                if (pass.equals(DatabaseManipulation.getPassword(p))) {
+                if (pass != null && pass.equals(DatabaseManipulation.getPassword(p))) {
                     AuthCore.login(p);
                 } else {
                     p.sendMessage("Password credentials are wrong!");
                 }
             }
         }
-
         return false;
     }
 }
