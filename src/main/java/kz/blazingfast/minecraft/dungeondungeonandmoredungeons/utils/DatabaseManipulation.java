@@ -1,11 +1,10 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils;
 
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.sha256;
 import org.bukkit.entity.Player;
 
-import javax.xml.crypto.Data;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.*;
 
