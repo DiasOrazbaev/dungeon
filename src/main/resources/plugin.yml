@@ -1,4 +1,15 @@
-name: Dungeon Dungeon And More Dungeons
+name: Dungeon-Dungeon-And-More-Dungeons
 version: '${project.version}'
 main: kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons
 api-version: 1.19
+
+commands:
+  register:
+    aliases:
+      - reg
+    usage: /reg <password>
+
+  login:
+    aliases:
+      - l
+    usage: /l <password>
