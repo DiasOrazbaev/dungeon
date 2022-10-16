@@ -3,8 +3,8 @@ package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class sha256 {
-    public sha256() {
+public class SHA256 {
+    public SHA256() {
     }
 
     public static String hash(String msg) {
@@ -13,15 +13,15 @@ public class sha256 {
                 msg = "";
             }
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hash = md.digest(msg.getBytes());
 
-            for(int i = 0; i < hash.length; ++i) {
-                if ((255 & hash[i]) < 16) {
-                    sb.append("0" + Integer.toHexString(255 & hash[i]));
+            for (byte b : hash) {
+                if ((255 & b) < 16) {
+                    sb.append("0").append(Integer.toHexString(255 & b));
                 } else {
-                    sb.append(Integer.toHexString(255 & hash[i]));
+                    sb.append(Integer.toHexString(255 & b));
                 }
             }
 

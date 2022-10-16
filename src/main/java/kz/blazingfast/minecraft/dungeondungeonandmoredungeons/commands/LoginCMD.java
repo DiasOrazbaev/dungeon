@@ -2,7 +2,7 @@ package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.DatabaseManipulation;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.sha256;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.SHA256;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +23,7 @@ public class LoginCMD implements CommandExecutor {
             }
 
             if (args.length == 1 && DatabaseManipulation.isRegistered(p.getName()) && !AuthCore.isLogged(p)) {
-                String pass = sha256.hash(args[0]);
+                String pass = SHA256.hash(args[0]);
                 if (pass.equals(DatabaseManipulation.getPassword(p))) {
                     AuthCore.login(p);
                 } else {

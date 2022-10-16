@@ -65,7 +65,7 @@ public class DatabaseManipulation {
         try {
             PreparedStatement ps = connection.getConnection().prepareStatement("INSERT INTO users(nickname,password) VALUES (?,?);");
             ps.setString(1, p.getName());
-            ps.setString(2, sha256.hash(password));
+            ps.setString(2, SHA256.hash(password));
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
