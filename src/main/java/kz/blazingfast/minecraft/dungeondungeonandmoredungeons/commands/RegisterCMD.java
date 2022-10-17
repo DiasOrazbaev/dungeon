@@ -1,5 +1,6 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands;
 
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.DatabaseManipulation;
 import org.bukkit.command.Command;
@@ -12,14 +13,13 @@ import javax.annotation.Nonnull;
 public class RegisterCMD implements CommandExecutor {
 
     public RegisterCMD() {
-
     }
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
         if (sender instanceof Player p) {
-            if (label.equalsIgnoreCase("register")) {
-                p.sendMessage("/register <password>");
+            if (label.equalsIgnoreCase("register") && !(args.length == 2)) {
+                p.sendMessage(DungeonDungeonAndMoreDungeons.REGISTER_CMD_USAGE);
             }
 
             if (args.length == 2) {
@@ -30,17 +30,16 @@ public class RegisterCMD implements CommandExecutor {
                         if (pwd1.equals(pwd2)) {
                             AuthCore.register(p, pwd1);
                         } else {
-                            p.sendMessage("Password isn't match!");
+                            p.sendMessage(DungeonDungeonAndMoreDungeons.PASSWORD_NOMATCH);
                         }
                     } else {
-                        p.sendMessage("Password credentials is incorrect: Lenght >= 4");
+                        p.sendMessage(DungeonDungeonAndMoreDungeons.PASSWORD_LENGTH);
                     }
                 } else {
-                    p.sendMessage("You are already registered");
+                    p.sendMessage(DungeonDungeonAndMoreDungeons.ALREADY_REGISTERED);
                 }
             }
         }
-
         return false;
     }
 }

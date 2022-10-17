@@ -1,0 +1,11 @@
+settings:
+  loginRepeatingTime: 100
+  registerRepeatingTime: 100
+  welcomeMessage: true
+
+database:
+  postgres:
+    url: "jdbc:postgresql://localhost:5432/dungeon"
+    password: "hehowich"
+    database: "postgres"
+    table: "users"
