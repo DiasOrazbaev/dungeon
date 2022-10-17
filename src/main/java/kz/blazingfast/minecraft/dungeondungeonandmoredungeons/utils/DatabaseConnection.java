@@ -14,7 +14,7 @@ public class DatabaseConnection {
             Class.forName("org.postgresql.Driver");
             this.connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException ex) {
-            System.out.println("Database Connection Creation Failed : " + ex.getMessage());
+            System.out.println("Achtung! DatabaseConnection() exception occurred: " + ex.getMessage());
         }
     }
 
@@ -28,7 +28,6 @@ public class DatabaseConnection {
         } else if (instance.getConnection().isClosed()) {
             instance = new DatabaseConnection(url, username, password);
         }
-
         return instance;
     }
 }

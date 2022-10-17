@@ -7,9 +7,11 @@ commands:
   register:
     aliases:
       - reg
-    usage: /reg <password>
 
   login:
     aliases:
       - l
-    usage: /l <password>
+
+  logout:
+    aliases:
+      - lout
