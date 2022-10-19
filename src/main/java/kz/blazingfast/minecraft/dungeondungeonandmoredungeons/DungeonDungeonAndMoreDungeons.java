@@ -1,8 +1,6 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons;
 
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.LoginCMD;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.LogoutCMD;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.RegisterCMD;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.DatabaseManipulation;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.ServerEventListener;
@@ -45,8 +43,10 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         getCommand("logout").setExecutor(new LogoutCMD());
         getCommand("register").setExecutor(new RegisterCMD());
         getCommand("login").setExecutor(new LoginCMD());
-
-
+        getCommand("event").setExecutor(new EventCMD());
+        getCommand("event").setTabCompleter(new EventCompleter());
+        getCommand("subscribe").setExecutor(new SubscribeCMD());
+        getCommand("unsubscribe").setExecutor(new UnsubscribeCMD());
     }
 
     @Override
@@ -96,11 +96,11 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         JOIN_TITLE_1 = "§c§lDUNGEON, DUNGEON AND MORE DUNGEONS";
         JOIN_TITLE_2 = "§7Welcome, {PLAYER}";
         PASSWORD_LENGTH = "§cPassword must be at least 4 characters long!";
-        WELCOME_TITLE = """
-                        "§8§m-------------------------------------"
-                        "§c§lDUNGEON, DUNGEON AND MORE DUNGEONS"
-                        "§7Welcome, to the club, §ebuddy§7!"
-                        "§8§m-------------------------------------\"""".indent(4);
+        WELCOME_TITLE = "§8§m-------------------------------------\n" +
+                        "§c§lDUNGEON, DUNGEON AND MORE DUNGEONS \n" +
+                        "§7Welcome, to the club, §ebuddy§7!\n" +
+                        "§8§m-------------------------------------";
     }
+
 }
 

@@ -5,7 +5,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore.*;
@@ -28,7 +30,22 @@ public class ServerEventListener implements Listener {
         } else {
             registerRepeating(p);
         }
+        // TODO: Player login/register timer code
+    }
 
-        // TODO Player login/register timer code
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        System.out.println(VegetableMode.PLAYERS);
+        if (VegetableMode.PLAYERS.contains(event.getPlayer().getName())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onAction(PlayerInteractEvent event) {
+        System.out.println(VegetableMode.PLAYERS);
+        if (VegetableMode.PLAYERS.contains(event.getPlayer().getName())) {
+            event.setCancelled(true);
+        }
     }
 }

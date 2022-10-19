@@ -15,3 +15,13 @@ commands:
   logout:
     aliases:
       - lout
+  event:
+    description: event command
+
+  subscribe:
+    aliases:
+      - sub
+
+  unsubscribe:
+    aliases:
+      - unsub
