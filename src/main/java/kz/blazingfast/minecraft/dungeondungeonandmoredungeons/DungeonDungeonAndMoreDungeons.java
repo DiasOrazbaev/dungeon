@@ -2,6 +2,7 @@ package kz.blazingfast.minecraft.dungeondungeonandmoredungeons;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.ArmorShopCMD;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.ArmorShopCompleter;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.GunEvents;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.DatabaseManipulation;
@@ -51,6 +52,7 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         getCommand("subscribe").setExecutor(new SubscribeCMD());
         getCommand("unsubscribe").setExecutor(new UnsubscribeCMD());
         getCommand("gun").setExecutor(new ArmorShopCMD());
+        getCommand("gun").setTabCompleter(new ArmorShopCompleter());
 
     }
 

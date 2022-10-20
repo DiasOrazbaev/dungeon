@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class ArmorShopCMD implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] strings) {
-
 
         if (sender instanceof Player p) {
             if (label.equalsIgnoreCase("gun")) {
@@ -18,19 +18,16 @@ public class ArmorShopCMD implements CommandExecutor {
                     p.sendMessage("Set name of gun");
                     return true;
                 }
-
                 try {
                     Gun gun = Gun.valueOf(strings[0]);
                     ArmorShop.handle(gun, p);
                     p.sendMessage(String.format("to %s given %s", p.getName(), gun.name()));
-                } catch (IllegalArgumentException exception) {
-                    p.sendMessage("Incorrect name of gun");
+                } catch (IllegalArgumentException e) {
+                    p.sendMessage("Achtung! ArmorShopCMD exception occurred: Incorrect name of gun: " + e.getMessage());
                     return true;
                 }
             }
         }
-
-
         return true;
     }
 }

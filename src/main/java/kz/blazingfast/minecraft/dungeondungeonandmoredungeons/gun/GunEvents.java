@@ -14,6 +14,7 @@ public class GunEvents implements Listener {
             Gun gun = Gun.getGunFrom(event.getPlayer().getInventory().getItemInMainHand());
             if (gun != null) {
                 gun.shoot(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer());
+                gun.displayGunInterface(event.getPlayer().getInventory().getItemInMainHand());
             }
 
         }
@@ -24,6 +25,7 @@ public class GunEvents implements Listener {
         Gun gun = Gun.getGunFrom(event.getPlayer().getInventory().getItemInMainHand());
         if (gun != null) {
             gun.reload(event.getPlayer().getInventory().getItemInMainHand());
+            gun.displayGunInterface(event.getPlayer().getInventory().getItemInMainHand());
             event.setCancelled(true);
         }
     }
