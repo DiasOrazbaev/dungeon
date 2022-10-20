@@ -12,7 +12,6 @@ public class GunEvents implements Listener {
     public void onShoot(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Gun gun = Gun.getGunFrom(event.getPlayer().getInventory().getItemInMainHand());
-            event.getPlayer().sendMessage("pressed right click");
             if (gun != null) {
                 gun.shoot(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer());
             }

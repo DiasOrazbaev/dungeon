@@ -35,7 +35,6 @@ public class ServerEventListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        System.out.println(VegetableMode.PLAYERS);
         if (VegetableMode.PLAYERS.contains(event.getPlayer().getName())) {
             event.setCancelled(true);
         }
@@ -43,7 +42,6 @@ public class ServerEventListener implements Listener {
 
     @EventHandler
     public void onAction(PlayerInteractEvent event) {
-        System.out.println(VegetableMode.PLAYERS);
         if (VegetableMode.PLAYERS.contains(event.getPlayer().getName())) {
             event.setCancelled(true);
         }

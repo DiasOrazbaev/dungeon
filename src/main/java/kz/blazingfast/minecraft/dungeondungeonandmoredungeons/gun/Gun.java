@@ -45,7 +45,6 @@ public enum Gun {
         Gun gun = Gun.getGunFrom(itemStack);
 
         if (bullets <= 0) {
-            reload(itemStack);
             return;
         }
 
@@ -69,8 +68,12 @@ public enum Gun {
         if (rayTraceResult != null) {
             LivingEntity livingEntity = (LivingEntity) rayTraceResult.getHitEntity();
 
-            RayTraceResult rayTraceBlocks = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getLocation().getDirection(), 99);
+            RayTraceResult rayTraceBlocks = player.getWorld().rayTraceBlocks(
+                    player.getEyeLocation(),
+                    player.getLocation().getDirection(),
+                    99);
             if (rayTraceBlocks == null) {
+                livingEntity.damage(damage);
                 return;
             }
             Block block = rayTraceBlocks.getHitBlock();
