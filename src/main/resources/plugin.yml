@@ -25,3 +25,5 @@ commands:
   unsubscribe:
     aliases:
       - unsub
+
+  gun:

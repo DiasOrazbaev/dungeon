@@ -1,6 +1,8 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.ArmorShopCMD;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.GunEvents;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.DatabaseManipulation;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.ServerEventListener;
@@ -37,6 +39,7 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.messages();
 
         getServer().getPluginManager().registerEvents(new ServerEventListener(), this);
+        getServer().getPluginManager().registerEvents(new GunEvents(), this);
 
         plugin = (DungeonDungeonAndMoreDungeons) DungeonDungeonAndMoreDungeons.getPlugin(DungeonDungeonAndMoreDungeons.class);
 
@@ -47,6 +50,8 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         getCommand("event").setTabCompleter(new EventCompleter());
         getCommand("subscribe").setExecutor(new SubscribeCMD());
         getCommand("unsubscribe").setExecutor(new UnsubscribeCMD());
+        getCommand("gun").setExecutor(new ArmorShopCMD());
+
     }
 
     @Override
