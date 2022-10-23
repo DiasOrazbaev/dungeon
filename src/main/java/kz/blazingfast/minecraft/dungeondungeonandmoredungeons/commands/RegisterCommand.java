@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 
-public class RegisterCMD implements CommandExecutor {
+public class RegisterCommand implements CommandExecutor {
 
-    public RegisterCMD() {
+    public RegisterCommand() {
     }
 
     @Override

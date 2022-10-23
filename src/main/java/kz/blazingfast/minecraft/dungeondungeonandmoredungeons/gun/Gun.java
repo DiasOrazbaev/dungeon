@@ -15,10 +15,10 @@ import java.util.Objects;
 
 public enum Gun {
 
-    AK47(10, 30,120,  "AK-47", Material.BLACK_DYE),
-    M4A1S(8, 25, 90,"M4A1-S", Material.BLUE_DYE),
+    AK47(10, 30, 120,  "AK-47", Material.BLACK_DYE),
+    M4A1S(8, 25, 90, "M4A1-S", Material.BLUE_DYE),
     AWP(20, 10, 30, "AWP", Material.GREEN_DYE),
-    USP(4, 12, 24, "USP-S", Material.BLACK_DYE),
+    USP(4, 12, 24, "USP-S", Material.LIGHT_BLUE_DYE),
     GLOCK(3, 20, 60, "GLOCK-18", Material.YELLOW_DYE);
 
     public static Gun getGunFrom(ItemStack itemStack) {

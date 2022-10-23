@@ -7,14 +7,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 
-public class SubscribeCMD implements CommandExecutor {
 
-    public SubscribeCMD() {
+public class SubscribeCommand implements CommandExecutor {
+
+    public SubscribeCommand() {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
         if (sender instanceof Player p) {
             if (label.equalsIgnoreCase("subscribe")) {
                 Subscribers.getEventManager().subscribe(new User(p.getName()));

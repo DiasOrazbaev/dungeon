@@ -6,7 +6,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
-public class GunEvents implements Listener {
+public class GunEventListener implements Listener {
 
     @EventHandler
     public void onShoot(PlayerInteractEvent event) {
