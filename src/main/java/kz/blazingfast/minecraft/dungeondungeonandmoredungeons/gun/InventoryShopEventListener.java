@@ -102,7 +102,7 @@ public class InventoryShopEventListener implements Listener {
                     helmet.setItemMeta(helmet_meta);
                     armor.setItemMeta(armor_meta);
 
-                    p.getInventory().setChestplate(helmet);
+                    p.getInventory().setHelmet(helmet);
                     p.getInventory().setChestplate(armor);
 
                 }
