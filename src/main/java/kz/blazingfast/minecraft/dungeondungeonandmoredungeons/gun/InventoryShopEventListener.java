@@ -1,7 +1,12 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun;
 
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.decorator.Armor;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.decorator.ArmorHelmetDecorator;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.decorator.ArmorOnlyDecorator;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,9 +81,48 @@ public class InventoryShopEventListener implements Listener {
                     }
                 }
                 case LEATHER_HELMET -> {
+                    p.closeInventory();
+                    Armor h = new ArmorHelmetDecorator();
+                    h.giveAbsorptionHp(p);
+                    h.setHp(p);
+                    ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+                    ItemStack armor = new ItemStack(Material.LEATHER_CHESTPLATE);
+
+                    ItemMeta helmet_meta = helmet.getItemMeta();
+                    ItemMeta armor_meta = armor.getItemMeta();
+
+                    assert helmet_meta != null;
+                    helmet_meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
+                    helmet_meta.setDisplayName(ChatColor.GRAY + "Helmet");
+
+                    assert armor_meta != null;
+                    armor_meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
+                    armor_meta.setDisplayName(ChatColor.GRAY + "Armor");
+
+                    helmet.setItemMeta(helmet_meta);
+                    armor.setItemMeta(armor_meta);
+
+                    p.getInventory().setChestplate(helmet);
+                    p.getInventory().setChestplate(armor);
 
                 }
                 case LEATHER_CHESTPLATE -> {
+                    p.closeInventory();
+                    Armor a = new ArmorOnlyDecorator();
+                    a.giveAbsorptionHp(p);
+                    a.setHp(p);
+
+                    ItemStack armor = new ItemStack(Material.LEATHER_CHESTPLATE);
+
+                    ItemMeta armor_meta = armor.getItemMeta();
+
+                    assert armor_meta != null;
+                    armor_meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
+                    armor_meta.setDisplayName(ChatColor.GRAY + "Armor");
+
+                    armor.setItemMeta(armor_meta);
+
+                    p.getInventory().setChestplate(armor);
 
                 }
             }
@@ -93,20 +137,21 @@ public class InventoryShopEventListener implements Listener {
         ItemMeta meta = gunItem.getItemMeta();
         List<String> lore = new ArrayList<>();
 
+        assert meta != null;
         meta.getPersistentDataContainer().set(
-                NamespacedKey.fromString("gun_name"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_name")),
                 PersistentDataType.STRING,
                 gun.name()
         );
 
         meta.getPersistentDataContainer().set(
-                NamespacedKey.fromString("gun_magazine"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
                 PersistentDataType.INTEGER,
                 gun.getMagazine()
         );
 
         meta.getPersistentDataContainer().set(
-                NamespacedKey.fromString("gun_ammo"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_ammo")),
                 PersistentDataType.INTEGER,
                 gun.getAmmo()
         );

@@ -45,7 +45,7 @@ public enum Gun {
         assert gun != null;
 
         int bulletsInMagazine = meta.getPersistentDataContainer().get(
-                NamespacedKey.fromString("gun_magazine"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
                 PersistentDataType.INTEGER
         );
 
@@ -54,7 +54,7 @@ public enum Gun {
         }
 
         meta.getPersistentDataContainer().set(
-                NamespacedKey.fromString("gun_magazine"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
                 PersistentDataType.INTEGER,
                 bulletsInMagazine - 1
         );
@@ -99,12 +99,12 @@ public enum Gun {
         assert meta != null;
 
         int ammoLeft = meta.getPersistentDataContainer().get(
-                NamespacedKey.fromString("gun_ammo"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_ammo")),
                 PersistentDataType.INTEGER
         );
 
         int bulletsInMagazine = meta.getPersistentDataContainer().get(
-                NamespacedKey.fromString("gun_magazine"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
                 PersistentDataType.INTEGER
         );
 
@@ -121,13 +121,13 @@ public enum Gun {
         }
 
         meta.getPersistentDataContainer().set(
-                NamespacedKey.fromString("gun_magazine"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
                 PersistentDataType.INTEGER,
                 bulletsInMagazine
         );
 
         meta.getPersistentDataContainer().set(
-                NamespacedKey.fromString("gun_ammo"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_ammo")),
                 PersistentDataType.INTEGER,
                 ammoLeft
         );
@@ -140,12 +140,12 @@ public enum Gun {
         assert meta != null;
 
         int ammoLeft = meta.getPersistentDataContainer().get(
-                NamespacedKey.fromString("gun_ammo"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_ammo")),
                 PersistentDataType.INTEGER
         );
 
         int bulletsInMagazine = meta.getPersistentDataContainer().get(
-                NamespacedKey.fromString("gun_magazine"),
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
                 PersistentDataType.INTEGER
         );
 
