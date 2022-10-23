@@ -20,6 +20,5 @@ public class User implements Observer {
         for (String event: events) {
             Objects.requireNonNull(Bukkit.getPlayer(this.username)).sendMessage(event);
         }
-        System.out.println();
     }
 }

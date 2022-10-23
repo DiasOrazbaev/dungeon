@@ -12,13 +12,13 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 
-public class LoginCMD implements CommandExecutor {
+public class LoginCommand implements CommandExecutor {
 
-    public LoginCMD() {
+    public LoginCommand() {
     }
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender sender,@Nonnull  Command command,@Nonnull  String label,@Nonnull  String[] args) {
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
         if (sender instanceof Player p) {
             if (label.equalsIgnoreCase("login") && !(args.length == 1)) {
                 p.sendMessage(DungeonDungeonAndMoreDungeons.LOGIN_CMD_USAGE);

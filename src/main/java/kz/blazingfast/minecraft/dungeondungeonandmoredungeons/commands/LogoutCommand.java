@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 
-public class LogoutCMD implements CommandExecutor {
+public class LogoutCommand implements CommandExecutor {
 
-    public LogoutCMD() {
+    public LogoutCommand() {
     }
 
     @Override

@@ -1,13 +1,16 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.ArmorShopCMD;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.GunEvents;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.GunEventListener;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.DatabaseManipulation;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopEventListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.ServerEventListener;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements Listener {
 
@@ -26,10 +29,6 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
     public static String WELCOME_TITLE, JOIN_TITLE_1, JOIN_TITLE_2;
     public static String LOG_OUTTED, LOG_OUTTED_EXCEPT;
 
-    public static DungeonDungeonAndMoreDungeons getInstance() {
-        return plugin;
-    }
-
     @Override
     public void onEnable() {
 
@@ -39,19 +38,19 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.messages();
 
         getServer().getPluginManager().registerEvents(new ServerEventListener(), this);
-        getServer().getPluginManager().registerEvents(new GunEvents(), this);
+        getServer().getPluginManager().registerEvents(new InventoryShopEventListener(), this);
+        getServer().getPluginManager().registerEvents(new GunEventListener(), this);
 
-        plugin = (DungeonDungeonAndMoreDungeons) DungeonDungeonAndMoreDungeons.getPlugin(DungeonDungeonAndMoreDungeons.class);
+        plugin = DungeonDungeonAndMoreDungeons.getPlugin(DungeonDungeonAndMoreDungeons.class);
 
-        getCommand("logout").setExecutor(new LogoutCMD());
-        getCommand("register").setExecutor(new RegisterCMD());
-        getCommand("login").setExecutor(new LoginCMD());
-        getCommand("event").setExecutor(new EventCMD());
-        getCommand("event").setTabCompleter(new EventCompleter());
-        getCommand("subscribe").setExecutor(new SubscribeCMD());
-        getCommand("unsubscribe").setExecutor(new UnsubscribeCMD());
-        getCommand("gun").setExecutor(new ArmorShopCMD());
-
+        Objects.requireNonNull(getCommand("logout")).setExecutor(new LogoutCommand());
+        Objects.requireNonNull(getCommand("register")).setExecutor(new RegisterCommand());
+        Objects.requireNonNull(getCommand("login")).setExecutor(new LoginCommand());
+        Objects.requireNonNull(getCommand("event")).setExecutor(new EventCommand());
+        Objects.requireNonNull(getCommand("event")).setTabCompleter(new EventCompleter());
+        Objects.requireNonNull(getCommand("subscribe")).setExecutor(new SubscribeCommand());
+        Objects.requireNonNull(getCommand("unsubscribe")).setExecutor(new UnsubscribeCommand());
+        Objects.requireNonNull(getCommand("shop")).setExecutor(new InventoryShopCommand());
     }
 
     @Override
