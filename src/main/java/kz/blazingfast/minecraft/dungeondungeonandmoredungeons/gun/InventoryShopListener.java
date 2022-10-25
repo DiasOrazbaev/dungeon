@@ -15,12 +15,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.log;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand.*;
 
-public class InventoryShopListener implements Listener{
+public class InventoryShopListener implements Listener {
 
     @EventHandler
     public void clickEvent(InventoryClickEvent event) {
@@ -129,6 +132,7 @@ public class InventoryShopListener implements Listener{
                             p.getInventory().setChestplate(armor);
 
                         }
+                        default -> p.sendMessage("ok :( im so sad if u dont buy everything :(");
                     }
                 } else {
                     event.setCancelled(true);
@@ -136,8 +140,8 @@ public class InventoryShopListener implements Listener{
                 event.setCancelled(true);
             }
         } catch (Exception e) {
-            log("Achtung! clickEvent(InventoryClickEvent exception occurred");
-            //TODO solve it Dias, please!
+            log(e.getMessage());
+            log(Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -151,7 +155,7 @@ public class InventoryShopListener implements Listener{
         List<String> lore = meta.getLore();
 
         assert lore != null;
-        lore.add("OWNER: " + ChatColor.LIGHT_PURPLE +  p.getName());
+        lore.add("OWNER: " + ChatColor.LIGHT_PURPLE + p.getName());
 
         meta.setLore(lore);
 

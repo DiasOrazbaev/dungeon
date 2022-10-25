@@ -24,7 +24,7 @@ public class InventoryShopCommand implements CommandExecutor {
 
         if (sender instanceof Player p) {
 
-            Inventory gui = Bukkit.createInventory(p,9, ChatColor.DARK_GREEN + "Gun Shop");
+            Inventory gui = Bukkit.createInventory(p, 9, ChatColor.DARK_GREEN + "Gun Shop");
 
             WeaponBuilder builder = new WeaponBuilder();
             Director director = new Director();
