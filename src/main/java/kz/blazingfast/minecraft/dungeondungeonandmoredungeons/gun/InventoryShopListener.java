@@ -20,7 +20,7 @@ import java.util.Objects;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.log;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand.*;
 
-public class InventoryShopListener extends WeaponBuilder  implements Listener{
+public class InventoryShopListener implements Listener{
 
     @EventHandler
     public void clickEvent(InventoryClickEvent event) {

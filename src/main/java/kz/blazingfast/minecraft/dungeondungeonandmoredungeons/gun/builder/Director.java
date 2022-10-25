@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.getInstance;
 
-public class Director extends WeaponBuilder {
+public class Director {
     public void build_ak47(@Nonnull WeaponBuilder builder) {
         String weapon = "ak47";
         builder.setItemStack(null);
