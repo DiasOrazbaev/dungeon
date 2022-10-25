@@ -1,5 +1,6 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils;
 
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons;
 import org.bukkit.entity.Player;
 import java.sql.*;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.*;
@@ -7,22 +8,22 @@ import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDung
 public class DatabaseManipulation {
 
     public static DatabaseConnection connection;
+    public static String url = "jdbc:postgresql://" + hostname + ":" + port + "/" + database;
 
     public DatabaseManipulation() {
     }
 
     public static boolean isConnected() {
         try {
-            connection = DatabaseConnection.getInstance(url, database,password);
+            connection = DatabaseConnection.getInstance(url, username, dbpassword);
         } catch (SQLException e) {
-            System.out.println("Achtung! isConnected() exception occurred: Can't connect to Database: " + e.getMessage());
+            DungeonDungeonAndMoreDungeons.log("DDD >>> Achtung! DatabaseManipulation isConnected() exception occurred: Can't connect to Database: " + e.getMessage());
             return false;
         }
         return true;
     }
 
     public static synchronized void createTable() {
-
         if(isConnected()) {
             try {
                 assert connection != null;
@@ -31,7 +32,7 @@ public class DatabaseManipulation {
                 ps.executeUpdate();
                 ps.close();
             } catch (SQLException e) {
-                System.out.println("Achtung! createTable() exception occurred! Unable to create <" + table + "> table in the database: " + e.getMessage());
+                DungeonDungeonAndMoreDungeons.log("DDD >>> Achtung! DatabaseManipulation createTable() exception occurred! Unable to create <" + table + "> table in the database: " + e.getMessage());
             }
         }
     }
@@ -49,7 +50,7 @@ public class DatabaseManipulation {
             }
 
         } catch (SQLException e) {
-            System.out.println("Achtung! isRegistered() exception occurred: " + e.getMessage());
+            DungeonDungeonAndMoreDungeons.log("DDD >>> Achtung! DatabaseManipulation isRegistered() exception occurred: " + e.getMessage());
         }
 
         return false;
@@ -57,13 +58,13 @@ public class DatabaseManipulation {
 
     public static synchronized void registerPlayer(Player p, String password) {
         try {
-            PreparedStatement ps = connection.getConnection().prepareStatement("INSERT INTO " + table + "(nickname,password) VALUES (?,?);");
+            PreparedStatement ps = connection.getConnection().prepareStatement("INSERT INTO " + table + "(nickname, password) VALUES (?,?);");
             ps.setString(1, p.getName());
             ps.setString(2, SHA256.hash(password));
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            System.out.println("Achtung! registerPlayer() exception occurred: " + e.getMessage());
+            DungeonDungeonAndMoreDungeons.log("DDD >>> Achtung! DatabaseManipulation registerPlayer() exception occurred: " + e.getMessage());
         }
     }
 
@@ -84,9 +85,8 @@ public class DatabaseManipulation {
                 p.sendMessage("Register deb (-_-)");
             }
         } catch (SQLException e) {
-            System.out.println("DatabaseManipulation getPassword() exception occurred: " + e.getMessage());
+            DungeonDungeonAndMoreDungeons.log("DDD >>> DatabaseManipulation getPassword() exception occurred: " + e.getMessage());
         }
-
         return null;
     }
 }

@@ -35,7 +35,7 @@ public class LoginCommand implements CommandExecutor {
                         p.sendMessage(DungeonDungeonAndMoreDungeons.BAD_PASSWORD);
                     }
                 } else if (DatabaseManipulation.isRegistered(p.getName()) && AuthCore.isLogged(p)) {
-                    p.sendMessage(DungeonDungeonAndMoreDungeons.ALREADY_LOGGINED);
+                    p.sendMessage(DungeonDungeonAndMoreDungeons.ALREADY_LOGGED_IN);
                 } else {
                     p.sendMessage(DungeonDungeonAndMoreDungeons.GO_REGISTER);
                 }
