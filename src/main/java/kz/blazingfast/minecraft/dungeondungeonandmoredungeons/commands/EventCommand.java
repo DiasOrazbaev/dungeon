@@ -1,5 +1,6 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands;
 
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.observer.Subscribers;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -41,7 +42,7 @@ public class EventCommand implements CommandExecutor {
                         Subscribers.getEventManager().removeEvent(args[1]);
                         p.sendMessage("event removed");
                     } catch (Exception e) {
-                        System.out.println("Achtung! EventCMD removeEvent() exception occurred:" + e);
+                        DungeonDungeonAndMoreDungeons.log("DDD >>> Achtung! EventCMD removeEvent() exception occurred:" + e);
                     }
                     return true;
                 } else if (args[0].equalsIgnoreCase("sendAll")) {

@@ -1,7 +1,6 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -9,40 +8,32 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.RayTraceResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public enum Gun {
+public class WeaponLogic {
 
-    AK47(10, 30, 120,  "AK-47", Material.BLACK_DYE),
-    M4A1S(8, 25, 90, "M4A1-S", Material.BLUE_DYE),
-    AWP(20, 10, 30, "AWP", Material.GREEN_DYE),
-    USP(4, 12, 24, "USP-S", Material.LIGHT_BLUE_DYE),
-    GLOCK(3, 20, 60, "GLOCK-18", Material.YELLOW_DYE);
+    public static boolean isGun(@NotNull ItemStack itemInMainHand) {
 
-    public static Gun getGunFrom(ItemStack itemStack) {
-
-        ItemMeta meta = itemStack.getItemMeta();
+        ItemMeta meta = itemInMainHand.getItemMeta();
         assert meta != null;
-        var gunName = meta.getPersistentDataContainer().get(
-                Objects.requireNonNull(NamespacedKey.fromString("gun_name")),
+        String type = meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_type")),
                 PersistentDataType.STRING
         );
 
-        if (gunName == null) {
-            return null;
-        }
-        return valueOf(gunName);
+        assert type != null;
+        return type.equals("rifle") || type.equals("rifleWithScope") || type.equals("sniper") || type.equals("pistol");
     }
 
-    public void shoot(ItemStack itemStack, Player player) {
+    public static void shoot(@NotNull ItemStack gun, Player player) {
 
-        ItemMeta meta = itemStack.getItemMeta();
+        ItemMeta meta = gun.getItemMeta();
         assert meta != null;
-
-        Gun gun = Gun.getGunFrom(itemStack);
-        assert gun != null;
 
         int bulletsInMagazine = meta.getPersistentDataContainer().get(
                 Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
@@ -58,13 +49,18 @@ public enum Gun {
                 PersistentDataType.INTEGER,
                 bulletsInMagazine - 1
         );
-        itemStack.setItemMeta(meta);
+        gun.setItemMeta(meta);
 
         RayTraceResult rayTraceResult = player.getWorld().rayTraceEntities(
                 player.getEyeLocation(),
                 player.getEyeLocation().getDirection(),
                 100,
                 (entity -> entity != player && entity instanceof LivingEntity)
+        );
+
+        double damage = meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_damage")),
+                PersistentDataType.DOUBLE
         );
 
         if (rayTraceResult != null) {
@@ -93,9 +89,9 @@ public enum Gun {
         }
     }
 
-    public void reload(ItemStack itemStack) {
+    public static void reload(@NotNull ItemStack gun) {
 
-        ItemMeta meta = itemStack.getItemMeta();
+        ItemMeta meta = gun.getItemMeta();
         assert meta != null;
 
         int ammoLeft = meta.getPersistentDataContainer().get(
@@ -112,9 +108,9 @@ public enum Gun {
 
         bulletsInMagazine = 0;
 
-        if (ammoLeft >= getMagazine()) {
-            ammoLeft = ammoLeft - getMagazine();
-            bulletsInMagazine = bulletsInMagazine + getMagazine();
+        if (ammoLeft >= getFullMagazine(gun)) {
+            ammoLeft = ammoLeft - getFullMagazine(gun);
+            bulletsInMagazine = bulletsInMagazine + getFullMagazine(gun);
         } else {
             bulletsInMagazine = ammoLeft;
             ammoLeft = 0;
@@ -132,11 +128,34 @@ public enum Gun {
                 ammoLeft
         );
 
-        itemStack.setItemMeta(meta);
+        gun.setItemMeta(meta);
     }
 
-    public void displayGunInterface(ItemStack itemStack) {
+    public static boolean scope(@NotNull ItemStack itemStack, Player player, int zoomLevel) {
         ItemMeta meta = itemStack.getItemMeta();
+        assert meta != null;
+
+        String type = meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_type")),
+                PersistentDataType.STRING
+        );
+        assert type != null;
+
+        if (type.equals("sniper") && zoomLevel == 1) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 5));
+            return true;
+        } else if (type.equals("rifleWithScope") && zoomLevel == 1 || type.equals("sniper") && zoomLevel == 2) {
+            player.removePotionEffect(PotionEffectType.SLOW);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 10000, 1));
+            return true;
+        } else {
+            player.removePotionEffect(PotionEffectType.SLOW);
+            return false;
+        }
+    }
+
+    public static void displayGunInterface(@NotNull ItemStack gun) {
+        ItemMeta meta = gun.getItemMeta();
         assert meta != null;
 
         int ammoLeft = meta.getPersistentDataContainer().get(
@@ -151,69 +170,41 @@ public enum Gun {
 
         meta.setDisplayName(String.format(
                 "%s %s|%s %s",
-                "" + ChatColor.WHITE + "" + getName(),
-                coloredBullets(bulletsInMagazine, getMagazine()),
-                "" + ChatColor.GRAY + "" + getMagazine(),
+                "" + ChatColor.WHITE + "" + getName(gun),
+                coloredBullets(bulletsInMagazine, getFullMagazine(gun)),
+                "" + ChatColor.GRAY + "" + getFullMagazine(gun),
                 "" + ChatColor.DARK_GREEN + ammoLeft));
 
-        itemStack.setItemMeta(meta);
+        gun.setItemMeta(meta);
     }
 
-    public String coloredBullets(int currentMagazine, int fullMagazin) {
+    public static String coloredBullets(int currentMagazine, int fullMagazin) {
         if (fullMagazin/3 >= currentMagazine) return "" +  ChatColor.RED + currentMagazine;
         return  "" + ChatColor.WHITE + currentMagazine;
     }
 
-    public double getDamage() {
-        return damage;
+    public static String getName(@NotNull ItemStack gun) {
+        ItemMeta meta = gun.getItemMeta();
+        assert meta != null;
+        return meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_name")),
+                PersistentDataType.STRING);
     }
 
-    public void setDamage(double damage) {
-        this.damage = damage;
+    public static int getFullMagazine(@NotNull ItemStack gun) {
+        ItemMeta meta = gun.getItemMeta();
+        assert meta != null;
+        return meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine_full")),
+                PersistentDataType.INTEGER);
     }
 
-    public int getMagazine() {
-        return magazine;
+    public static int getCurrentMagazine(@NotNull ItemStack gun) {
+        ItemMeta meta = gun.getItemMeta();
+        assert meta != null;
+        return meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_magazine")),
+                PersistentDataType.INTEGER);
     }
 
-    public void setMagazine(int magazine) {
-        this.magazine = magazine;
-    }
-
-    public int getAmmo() {
-        return ammo;
-    }
-
-    public void setAmmo(int ammo) {
-        this.ammo = ammo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Material getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    private double damage;
-    private int magazine, ammo;
-    private String name;
-    private Material material;
-
-    Gun(double gunDamage, int gunMagazine, int gunAmmo, String gunName, Material gunMaterial) {
-        this.damage = gunDamage;
-        this.magazine = gunMagazine;
-        this.ammo = gunAmmo;
-        this.name = gunName;
-        this.material = gunMaterial;
-    }
 }

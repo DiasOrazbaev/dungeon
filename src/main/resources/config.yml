@@ -5,7 +5,96 @@ settings:
 
 database:
   postgres:
-    url: "jdbc:postgresql://localhost:5432/dungeon"
-    password: "hehowich"
-    database: "postgres"
+    hostname: "localhost"
+    port: "5432"
+    database: "dungeon"
+    username: "postgres"
+    dbpassword: "hehowich"
     table: "users"
+
+messages:
+  login_cmd_usage: "&7Use: &c/login <password>"
+  register_cmd_usage: "&7Use: &c/register <password> <password_again>"
+  noperm_msg: "&cNot enough permissions!"
+  bad_password:  "&cBad password!"
+  password_nomatch: "&cPasswords does not match!"
+  already_registered: "&cThis nickname is already registered!"
+  already_logged_in: "&aYou are already logged in."
+  registering: "&aRegistering..."
+  successfully_registered: "&aSuccesfully registered!"
+  logging_in: "&aLogging in..."
+  successfully_logged_in: "&aSuccesfully logged in!"
+  register_repeating: "&7Use: &c/register <password> <password_again>"
+  login_repeating: "&7Use: &c/login <password>"
+  timeout: "&cYou were kicked: Login timeout!"
+  go_register: "&cThis nickname is not registered. Use </register> for more info"
+  log_outed: "&aProcessing logout..."
+  log_outed_except: "&aWe can't loggout you O_o"
+  join_title_1: "&c&lDUNGEON, DUNGEON AND MORE DUNGEONS"
+  join_title_2: "&7Welcome, {PLAYER}"
+  password_length: "&cPassword must be at least 4 characters long!"
+  welcome_title:
+    - "&8&m-------------------------------------\n"
+    - "&c&lDUNGEON, DUNGEON AND MORE DUNGEONS \n"
+    - "&7Welcome, to the club, &ebuddy&7!\n"
+    - "&8&m-------------------------------------"
+
+weapon:
+  ak47:
+    type: "rifle"
+    name: "AK-47"
+    cost: 2700
+    reward: 200
+    damage: 10.0
+    magazine: 30
+    ammo: 120
+  awp:
+    type: "sniper"
+    name: "AWP"
+    cost: 4750
+    reward: 150
+    damage: 20.0
+    magazine: 10
+    ammo: 30
+  m4a1s:
+    type: "rifle"
+    name: "M4A1-S"
+    cost: 2900
+    reward: 200
+    damage: 9.0
+    magazine: 30
+    ammo: 120
+  sg553:
+    type: "rifleWithScope"
+    name: "SG553"
+    cost: 3000
+    reward: 200
+    damage: 9.5
+    magazine: 30
+    ammo: 120
+  glock:
+    type: "pistol"
+    name: "GLOCK"
+    cost: 200
+    reward: 300
+    damage: 3.0
+    magazine: 20
+    ammo: 60
+  usp:
+    type: "pistol"
+    name: "USP-S"
+    cost: 200
+    reward: 300
+    damage: 4.0
+    magazine: 12
+    ammo: 24
+
+util:
+  armor:
+    type: "armor"
+    name: "ARMOR"
+    cost: 650
+  helmet:
+    type: "helmet"
+    name: "ARMOR + HELMET"
+    cost: 1000

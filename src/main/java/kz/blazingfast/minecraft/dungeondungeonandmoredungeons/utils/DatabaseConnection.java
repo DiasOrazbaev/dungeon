@@ -1,5 +1,7 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils;
 
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,8 +15,8 @@ public class DatabaseConnection {
         try {
             Class.forName("org.postgresql.Driver");
             this.connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Achtung! DatabaseConnection() exception occurred: " + ex.getMessage());
+        } catch (ClassNotFoundException e) {
+            DungeonDungeonAndMoreDungeons.log("DDD >>> Achtung! DatabaseConnection() exception occurred: " + e.getMessage());
         }
     }
 
