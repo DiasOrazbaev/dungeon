@@ -21,9 +21,9 @@ public class LogoutCommand implements CommandExecutor {
         if (sender instanceof Player p) {
             if (DatabaseManipulation.isRegistered(p.getName()) && AuthCore.isLogged(p)) {
                 AuthCore.logOut(p);
-                p.sendMessage(DungeonDungeonAndMoreDungeons.LOG_OUTTED);
+                p.sendMessage(DungeonDungeonAndMoreDungeons.LOG_OUTED);
             } else {
-                p.sendMessage(DungeonDungeonAndMoreDungeons.LOG_OUTTED_EXCEPT);
+                p.sendMessage(DungeonDungeonAndMoreDungeons.LOG_OUTED_EXCEPT);
             }
         }
         return true;
