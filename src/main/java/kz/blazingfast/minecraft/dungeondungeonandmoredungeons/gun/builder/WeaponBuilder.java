@@ -148,6 +148,6 @@ public class WeaponBuilder implements Builder, Prototype {
 
     @Override
     public ItemStack copy(ItemStack original) {
-        return original;
+        return original.clone();
     }
 }

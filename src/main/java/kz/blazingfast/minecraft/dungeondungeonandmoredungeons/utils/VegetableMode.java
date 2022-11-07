@@ -9,15 +9,21 @@ import java.util.TreeSet;
 
 public class VegetableMode {
 
-    public static final Set<String> PLAYERS = new TreeSet<>();
+    public static Set<String> PLAYERS = new TreeSet<>();
 
     public static void blockPlayer(Player p) {
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, Integer.MAX_VALUE));
         PLAYERS.add(p.getName());
     }
 
+    public static void blindPlayer(Player p) {
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, Integer.MAX_VALUE));
+    }
+
     public static void unblockPlayer(Player p) {
-        p.removePotionEffect(PotionEffectType.BLINDNESS);
         PLAYERS.remove(p.getName());
+    }
+
+    public static void unblindPlayer(Player p) {
+        p.removePotionEffect(PotionEffectType.BLINDNESS);
     }
 }

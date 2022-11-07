@@ -22,6 +22,7 @@ public class AuthCore implements Listener {
     public static void logOut(Player p) {
         logged.remove(p);
         VegetableMode.blockPlayer(p);
+        VegetableMode.blindPlayer(p);
     }
 
     public static void logIn(Player p) {

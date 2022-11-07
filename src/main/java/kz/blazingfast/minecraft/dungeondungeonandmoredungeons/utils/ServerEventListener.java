@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.Game.board;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.AuthCore.*;
 
 public class ServerEventListener implements Listener {
@@ -19,18 +20,19 @@ public class ServerEventListener implements Listener {
         logOut(e.getPlayer());
     }
 
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
+        p.setScoreboard(board);
         p.sendMessage(DungeonDungeonAndMoreDungeons.WELCOME_TITLE);
         VegetableMode.blockPlayer(p);
+        VegetableMode.blindPlayer(p);
         if (DatabaseManipulation.isRegistered(p.getName())) {
             loginRepeating(p);
         } else {
             registerRepeating(p);
-        }
-        // TODO: Player login/register timer code
+        } // TODO: Player login/register timer code
+
     }
 
     @EventHandler
@@ -46,4 +48,7 @@ public class ServerEventListener implements Listener {
             event.setCancelled(true);
         }
     }
+
+
 }
+

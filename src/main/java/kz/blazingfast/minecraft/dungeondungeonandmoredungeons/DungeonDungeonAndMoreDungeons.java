@@ -1,13 +1,20 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.*;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.observer.TeamchatCommand;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.observer.TeamchatCompleter;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.WeaponEventListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.*;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -29,7 +36,6 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
     public static String WELCOME_TITLE, JOIN_TITLE_1, JOIN_TITLE_2;
     public static String LOG_OUTED, LOG_OUTED_EXCEPT;
 
-
     @Override
     public void onEnable() {
         plugin = DungeonDungeonAndMoreDungeons.getPlugin(DungeonDungeonAndMoreDungeons.class);
@@ -37,6 +43,10 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.messagesConfigSetup();
         this.registerPluginEvents();
         this.registerPluginCommands();
+
+        Game game = new Game();
+        game.context();
+
         }
 
     @Override
@@ -57,17 +67,18 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.getServer().getPluginManager().registerEvents(new ServerEventListener(), this);
         this.getServer().getPluginManager().registerEvents(new WeaponEventListener(), this);
         this.getServer().getPluginManager().registerEvents(new InventoryShopListener(), this);
+        this.getServer().getPluginManager().registerEvents(new GameEventListener(),  this);
     }
 
     private void registerPluginCommands() {
         Objects.requireNonNull(this.getCommand("logout")).setExecutor(new LogoutCommand());
         Objects.requireNonNull(this.getCommand("register")).setExecutor(new RegisterCommand());
         Objects.requireNonNull(this.getCommand("login")).setExecutor(new LoginCommand());
-        Objects.requireNonNull(this.getCommand("event")).setExecutor(new EventCommand());
-        Objects.requireNonNull(this.getCommand("event")).setTabCompleter(new EventCompleter());
-        Objects.requireNonNull(this.getCommand("subscribe")).setExecutor(new SubscribeCommand());
-        Objects.requireNonNull(this.getCommand("unsubscribe")).setExecutor(new UnsubscribeCommand());
         Objects.requireNonNull(this.getCommand("shop")).setExecutor(new InventoryShopCommand());
+        Objects.requireNonNull(this.getCommand("game")).setExecutor(new GameCommand());
+        Objects.requireNonNull(this.getCommand("game")).setTabCompleter(new GameCompleter());
+        Objects.requireNonNull(this.getCommand("teamchat")).setExecutor(new TeamchatCommand());
+        Objects.requireNonNull(this.getCommand("teamchat")).setTabCompleter(new TeamchatCompleter());
     }
 
     private synchronized void clearAll() {

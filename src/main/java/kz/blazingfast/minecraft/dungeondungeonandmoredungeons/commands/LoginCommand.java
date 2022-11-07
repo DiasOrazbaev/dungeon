@@ -31,6 +31,7 @@ public class LoginCommand implements CommandExecutor {
                     if (pass != null && pass.equals(DatabaseManipulation.getPassword(p))) {
                         AuthCore.login(p);
                         VegetableMode.unblockPlayer(p);
+                        VegetableMode.unblindPlayer(p);
                     } else {
                         p.sendMessage(DungeonDungeonAndMoreDungeons.BAD_PASSWORD);
                     }
