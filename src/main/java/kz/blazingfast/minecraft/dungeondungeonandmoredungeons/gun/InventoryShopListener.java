@@ -126,7 +126,6 @@ public class InventoryShopListener implements Listener{
 
                                     Armor h = new ArmorHelmetDecorator();
                                     h.giveAbsorptionHp(p);
-                                    h.setHp(p);
                                     ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
                                     ItemStack armor = new ItemStack(Material.LEATHER_CHESTPLATE);
 
@@ -157,7 +156,6 @@ public class InventoryShopListener implements Listener{
                                     member.subtractMoney(ARMOR_data.getCost());
                                     Armor a = new ArmorOnlyDecorator();
                                     a.giveAbsorptionHp(p);
-                                    a.setHp(p);
 
                                     ItemStack armor = new ItemStack(Material.LEATHER_CHESTPLATE);
 

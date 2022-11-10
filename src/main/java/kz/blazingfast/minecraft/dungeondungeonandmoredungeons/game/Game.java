@@ -46,13 +46,12 @@ public class Game {
                 if (round.getFreezeTime() >= 0) {
                     dynamicTimer = round.getFreezeTime();
                     if (round.isRunning()) {
-                        round.setSign("Freeze time");
+                        sign = "Freeze time";
                         FreezeMode.blockAllPlayers();
                     }
                 } else {
                     dynamicTimer = round.getTime();
                     if (round.isRunning()) {
-                        round.setSign(round.getSign());
                         FreezeMode.unblockAllPlayers();
                     }
                 }

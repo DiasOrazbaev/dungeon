@@ -1,5 +1,6 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.observer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class Teammate implements Observer {
 
     @Override
     public void handleMessage(Player sender, String message) {
-        Objects.requireNonNull(player).sendMessage("Teamchat <" + sender + "> " + message);
-
+        Objects.requireNonNull(player).sendMessage(ChatColor.BLUE + "(TEAM)" + ChatColor.WHITE + ChatColor.BOLD + " <" + sender.getName().toString() + "> " + ChatColor.WHITE + message);
     }
+
 }

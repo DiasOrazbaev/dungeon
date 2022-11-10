@@ -26,3 +26,6 @@ commands:
 
   teamchat:
     description: team chat command
+
+  spawn:
+    description: spawn command
