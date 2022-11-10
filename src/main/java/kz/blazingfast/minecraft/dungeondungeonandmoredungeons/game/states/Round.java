@@ -5,7 +5,7 @@ public class Round {
     private State state;
     private int attackWins;
     private int defenseWins;
-    private int currentRound;
+    private int currentRound = getCurrentRound();
     private boolean running;
     private int freezeTime;
     private int buyTime;

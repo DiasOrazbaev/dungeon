@@ -10,18 +10,18 @@ import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils.Veget
 
 public class FreezeMode {
 
-    public static Set<String> PLAYEES = new TreeSet<>();
+    public static Set<String> MEMBERS = new TreeSet<>();
 
     public static void blockAllPlayers() {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            PLAYEES.add(p.getName());
+            MEMBERS.add(p.getName());
         }
     }
 
     public static void unblockAllPlayers() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!PLAYERS.contains(p.getName())) {
-                PLAYEES.remove(p.getName());
+                MEMBERS.remove(p.getName());
             }
         }
     }

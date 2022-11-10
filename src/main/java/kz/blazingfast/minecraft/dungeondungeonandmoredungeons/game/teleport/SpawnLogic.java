@@ -2,7 +2,6 @@ package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.Game;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.Member;
-import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport.Coordinates;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -29,7 +28,7 @@ public class SpawnLogic {
     };
 
     static Coordinates[] defenseSpawnCoordinates = {
-            new Coordinates(46, -9, 104),
+            new Coordinates(46, -3, 104),
             new Coordinates(48, -3, 105),
             new Coordinates(50, -3, 106),
             new Coordinates(52, -3, 105),
@@ -37,7 +36,7 @@ public class SpawnLogic {
             new Coordinates(55, -3, 102),
             new Coordinates(54, -3, 100),
             new Coordinates(52, -3, 99),
-            new Coordinates(50, -3, -98),
+            new Coordinates(50, -3, 98),
             new Coordinates(48, -3, 99),
             new Coordinates(46, -3, 100),
             new Coordinates(45, -3, 102)
@@ -51,7 +50,7 @@ public class SpawnLogic {
                 return;
             }
 
-            int random = new Random().nextInt(0, 9 - members.size());
+            int random = new Random().nextInt(0, 8 - members.size());
 
             for (Member member : members) {
                 teleportPlayer(Bukkit.getPlayer(member.getMembername()), attackSpawnCoordinates[random].getX(), attackSpawnCoordinates[random].getY(), attackSpawnCoordinates[random].getZ());
@@ -70,7 +69,7 @@ public class SpawnLogic {
                 return;
             }
 
-            int random = new Random().nextInt(0, 11 - members.size());
+            int random = new Random().nextInt(0, 10 - members.size());
 
             for (Member member : members) {
                 teleportPlayer(Bukkit.getPlayer(member.getMembername()), defenseSpawnCoordinates[random].getX(), defenseSpawnCoordinates[random].getY(), defenseSpawnCoordinates[random].getZ());

@@ -34,12 +34,24 @@ public class Member {
         money = money + 3250;
     }
 
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public void giveLoseMoney(int loseStreak) {
         money = money + 1400 + loseStreak * 500;
     }
 
     public void giveRewardMoney(int reward) {
         money = money + reward;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public int getDeaths() {
+        return deaths;
     }
 
     public int getMoney() {

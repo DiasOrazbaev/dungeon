@@ -26,40 +26,30 @@ public class GameCommand implements CommandExecutor {
             if (label.equalsIgnoreCase("game") && args.length == 1) {
                 if (args[0].equalsIgnoreCase("my_stat")) {
                     p.sendMessage(Game.getMemberStat(p.getName()));
-                }
-                if (args[0].equalsIgnoreCase("print_game")) {
+                } else if (args[0].equalsIgnoreCase("print_game")) {
                     Game.printGame(p);
-                }
-                if (args[0].equalsIgnoreCase("start")) {
+                } else if (args[0].equalsIgnoreCase("start") && Game.isPlayersEnough()) {
                     round.getState().onResume();
-                }
-                if (args[0].equalsIgnoreCase("respawn")) {
+                } else if (args[0].equalsIgnoreCase("respawn")) {
                     Game.respawnMembers();
+                } else if (args[0].equalsIgnoreCase("impulse")) {
+                    Game.giveMoney(p);
                 }
             }
 
             if (label.equalsIgnoreCase("game") && args.length == 2) {
-                if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("run"))) {
+                if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("run")) && Game.isPlayersEnough()) {
                     round.getState().onResume();
-                    p.sendMessage("/game round run command used ");
-                } else if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("pause"))){
+                } else if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("pause")) && Game.isPlayersEnough()) {
                     round.getState().onPause();
-                    p.sendMessage("/game round pause command used");
-                }
-
-                /* else if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("restart"))) {
-                    round.getState().onNewRound();
-                    p.sendMessage("/game round restart command used"); */
-
-                else if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("new"))) {
+                } else if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("new")) && Game.isPlayersEnough()) {
                     round.getState().onNewRound();
                     Game.respawnMembers();
-                    p.sendMessage("/game round mew command used");
                 } else if (args[0].equalsIgnoreCase("stat") && !args[1].isEmpty()) {
                     p.sendMessage(Game.getMemberStat(args[1]));
                 } else if (args[0].equalsIgnoreCase("get") && args[1].equalsIgnoreCase("alive_on_map")) {
                     p.sendMessage("Alive all: " + Game.getAliveOnMap());
-                }  else if (args[0].equalsIgnoreCase("get") && args[1].equalsIgnoreCase("alive_on_defense")) {
+                } else if (args[0].equalsIgnoreCase("get") && args[1].equalsIgnoreCase("alive_on_defense")) {
                     p.sendMessage("Alive on defense: " + Game.getAliveOnDefense());
                 } else if (args[0].equalsIgnoreCase("get") && args[1].equalsIgnoreCase("alive_on_attack")) {
                     p.sendMessage("Alive on attack: " + Game.getAliveOnAttack());
@@ -69,21 +59,20 @@ public class GameCommand implements CommandExecutor {
             if (label.equalsIgnoreCase("game") && args.length == 3) {
                 if (args[0].equalsIgnoreCase("round") && (args[1].equalsIgnoreCase("set_time") && !args[2].isEmpty())) {
                     try {
-                        Integer seconds = Integer.valueOf(args[2]);
-
+                        int seconds = Integer.parseInt(args[2]);
                         round.setTime(seconds);
-                        p.sendMessage("/game round set_time " + seconds + " command used");
                     } catch (Exception e) {
                         log(" Achtung! /game round command exception occurred: " + e.getMessage());
                         p.sendMessage("usage /game round set_time <int seconds>");
                     }
+                } else if (args[0].equalsIgnoreCase("team") && args[1].equalsIgnoreCase("swap") && !args[2].isEmpty()) {
+                    Game.swapMemberFromTeamToTeam(args[2]);
                 }
             }
 
             if (label.equalsIgnoreCase("game") && args.length == 4) {
                 if (args[0].equalsIgnoreCase("team") && args[1].equalsIgnoreCase("add_player") && !args[2].isEmpty() && !args[3].isEmpty()) {
                     try {
-
                         if (getPlayer(args[3]) != null) {
                             if (Game.getMemberTeamname(args[3]) == null) {
                                 Game.addMemberToTeam(args[2], args[3], 800, 0, 0);
@@ -96,28 +85,29 @@ public class GameCommand implements CommandExecutor {
                                 }
                             }
                         } else {
-                            p.sendMessage("/game team add_player command require online player!");
+                            p.sendMessage("This command require online player!");
                         }
                     } catch (Exception e) {
                         log(" Achtung! /game team add_player command exception occurred: " + e.getMessage());
                         p.sendMessage("usage /game team add_player <team> <player>");
                     }
                 } else if (args[0].equalsIgnoreCase("team") && args[1].equalsIgnoreCase("remove_player") && !args[2].isEmpty() && !args[3].isEmpty()) {
-                        try {
-                            if (getPlayer(args[3]) != null) {
-                                if (Objects.equals(Game.getMemberTeamname(args[3]), args[2])) {
-                                    Game.removeMemberFromTeam(args[2], args[3]);
-                                }
-                            } else {
-                                p.sendMessage("/game team remove_player command require online player!");
+                    try {
+                        if (getPlayer(args[3]) != null) {
+                            if (Objects.equals(Game.getMemberTeamname(args[3]), args[2])) {
+                                Game.removeMemberFromTeam(args[2], args[3]);
                             }
-                        } catch (Exception e) {
-                            log(" Achtung! /game team remove_player command exception occurred: " + e.getMessage());
-                            p.sendMessage("usage /game team remove_player <team> <player>");
+                        } else {
+                            p.sendMessage("This command require online player!");
                         }
+                    } catch (Exception e) {
+                        log(" Achtung! /game team remove_player command exception occurred: " + e.getMessage());
+                        p.sendMessage("usage /game team remove_player <team> <player>");
                     }
                 }
             }
+
+        }
         return true;
     }
 }

@@ -1,6 +1,7 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.utils;
 
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.Game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +19,9 @@ public class ServerEventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void secureDisconnect(PlayerQuitEvent e) {
         logOut(e.getPlayer());
+        if (Game.isMember(e.getPlayer().getName())) {
+            Game.removeMemberFromTeam(Game.getMemberTeamname(e.getPlayer().getName()), e.getPlayer().getName());
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

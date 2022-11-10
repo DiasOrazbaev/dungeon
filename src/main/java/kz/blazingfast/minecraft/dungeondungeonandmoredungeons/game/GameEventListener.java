@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +20,7 @@ public class GameEventListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if (FreezeMode.PLAYEES.contains(event.getPlayer().getName())) {
+        if (FreezeMode.MEMBERS.contains(event.getPlayer().getName())) {
             event.setCancelled(true);
         }
     }
@@ -32,18 +31,18 @@ public class GameEventListener implements Listener {
         try {
             Player player = event.getEntity().getPlayer();
             assert player != null;
-            Player killer = player.getKiller();
+            Player killer = event.getEntity().getKiller();
             assert killer != null;
             ItemStack itemInMainHand = killer.getInventory().getItemInMainHand();
             ItemMeta meta = itemInMainHand.getItemMeta();
 
-            if (player.getKiller() != null) {
+            if (killer != null) {
                 if (meta != null && meta.getLore() != null) {
                     if (WeaponLogic.isGun(itemInMainHand)) {
                         if (Game.isMember(player.getName()) && Game.isMember(killer.getName())) {
                             Member member = Game.getTeam(player.getName()).getMember(player.getName());
-                            String playeeName = player.getName();
-                            Game.incrementMemberDeathStat(playeeName);
+                            String memberName = player.getName();
+                            Game.incrementMemberDeathStat(memberName);
                             Game.incrementMemberKillStat(killer.getName());
                             Game.getMemberTeam(player.getName()).killMember(member);
                             String playerColored;
@@ -61,6 +60,7 @@ public class GameEventListener implements Listener {
 
                             String weaponColored = ChatColor.WHITE + " >> " + meta.getLore().get(2) + " >> ";
                             Bukkit.broadcastMessage(killerColored + weaponColored + playerColored);
+
                         }
 
                     }
@@ -81,7 +81,9 @@ public class GameEventListener implements Listener {
         } catch (Exception e) {
             log("Achtung! @EventHandler onDeath(PlayerDeathEvent) exception occurred: " + e.getMessage());
         } finally {
-            Game.roundForceWinCondition();
+            if (Game.getAliveOnDefense() == 0 || Game.getAliveOnAttack() == 0) {
+                Game.roundForceWinCondition();
+            }
         }
     }
 

@@ -178,9 +178,6 @@ public class InventoryShopListener implements Listener{
                     }
                     event.setCancelled(true);
                 }
-            } else {
-                p.closeInventory();
-                p.sendMessage("Your are not a member of counter-strike game mode.");
             }
         } catch (Exception e) {
             log("Achtung! clickEvent(InventoryClickEvent exception occurred");

@@ -25,7 +25,7 @@ public class InventoryShopCommand implements CommandExecutor {
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
 
         if (sender instanceof Player p) {
-            if (label.equalsIgnoreCase("shop") && args.length == 0) {
+            if (label.equalsIgnoreCase("shop")) {
                 if (Game.isMember(p.getName())) {
                     Member member = Game.getMember(p.getName());
                     if (Game.isBuyTime()) {

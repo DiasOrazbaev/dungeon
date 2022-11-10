@@ -20,21 +20,16 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Game {
 
-    static Round round;
-    static HashMap<String, Team> teams;
-    static HashMap<String, Teamchat> chats;
+    static Round round = new Round();;
+    static HashMap<String, Team> teams = new LinkedHashMap<>();;
+    static HashMap<String, Teamchat> chats = new LinkedHashMap<>();;
     public static Scoreboard board;
     String sign;
     int dynamicTimer;
 
     public Game() {
-        round = new Round();
-        teams = new LinkedHashMap<>();
-        chats = new LinkedHashMap<>();
         createTeam("attack");
         createTeam("defense");
-        round.setDefenseWins(getTeamWins("defense"));
-        round.setAttackWins(getTeamWins("attack"));
     }
 
     public synchronized void context() {
@@ -43,19 +38,20 @@ public class Game {
             public void run() {
                 sign = round.getSign();
 
-                if (round.getFreezeTime() >= 0) {
+                if (round.getFreezeTime() > 0) {
                     dynamicTimer = round.getFreezeTime();
                     if (round.isRunning()) {
                         sign = "Freeze time";
                         FreezeMode.blockAllPlayers();
                     }
-                } else {
+                }
+
+                if (round.getFreezeTime() <= 0 || round.getTime() > 0) {
                     dynamicTimer = round.getTime();
                     if (round.isRunning()) {
                         FreezeMode.unblockAllPlayers();
                     }
                 }
-
 
                 if (round.getTime() == 0) {
                     dynamicTimer = round.getEndTime();
@@ -63,31 +59,7 @@ public class Game {
                     roundEndState();
                 }
 
-                ScoreboardManager manager = Bukkit.getScoreboardManager();
-                assert manager != null;
-                board = manager.getNewScoreboard();
-                final Objective objective = board.registerNewObjective("purple", "lamborghini");
-                objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-                objective.setDisplayName(ChatColor.LIGHT_PURPLE + "Server State");
-
-                Score scoreTime = objective.getScore("§6" + "Time left: ");
-                scoreTime.setScore(dynamicTimer);
-
-                Score scoreRounds = objective.getScore("§5" + "Round number: " + round.getCurrentRound());
-                scoreRounds.setScore(-1);
-
-                Score scoreTable = objective.getScore("§5" + "Attack: " + getTeamWins("attack") + " | Defense: " + getTeamWins("defense"));
-                scoreTable.setScore(-2);
-
-                Score scoreState = objective.getScore("§6" + "Current state: " + ChatColor.DARK_GREEN + sign);
-                scoreState.setScore(-3);
-
-                Score scoreAlive = objective.getScore("§6" + "Alive on attack: " + getAliveOnAttack() + ChatColor.WHITE + " | " + ChatColor.BLUE  + "Alive on defense: " + getAliveOnDefense());
-                scoreAlive.setScore(-4);
-
-                for (Player player : Bukkit.getOnlinePlayers()){
-                    player.setScoreboard(board);
-                }
+                showScoreboard();
 
                 if (round.isRunning()) {
                     round.decrementTime();
@@ -96,13 +68,42 @@ public class Game {
         }.runTaskTimer(DungeonDungeonAndMoreDungeons.plugin, 0L, 20L);
     }
 
+    public void showScoreboard() {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        assert manager != null;
+        board = manager.getNewScoreboard();
+        final Objective objective = board.registerNewObjective("board","dummy","?eBoard");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.LIGHT_PURPLE + "Server State");
+
+        Score scoreTime = objective.getScore("§6" + "Time left: ");
+        scoreTime.setScore(dynamicTimer);
+
+        Score scoreRounds = objective.getScore("§5" + "Round number: " + round.getCurrentRound());
+        scoreRounds.setScore(-1);
+
+        Score scoreTable = objective.getScore("§5" + "Attack: " + getTeamWins("attack") + " | Defense: " + getTeamWins("defense"));
+        scoreTable.setScore(-2);
+
+        Score scoreState = objective.getScore("§6" + "Current state: " + ChatColor.DARK_GREEN + sign);
+        scoreState.setScore(-3);
+
+        Score scoreAlive = objective.getScore("§6" + "Alive on attack: " + getAliveOnAttack() + ChatColor.WHITE + " | " + ChatColor.BLUE  + "Alive on defense: " + getAliveOnDefense());
+        scoreAlive.setScore(-4);
+
+        for (Player player : Bukkit.getOnlinePlayers()){
+            player.setScoreboard(board);
+        }
+
+    }
+
     public static void roundForceWinCondition() {
-        if (getAliveOnAttack() > 0 && getAliveOnDefense() == 0) {
+        if (getAliveOnAttack() == 0 && getAliveOnDefense() > 0) {
             incrementDefenseWins();
             Bukkit.broadcastMessage("Defense win this round");
         }
 
-        else if (getAliveOnDefense() > 0 && getAliveOnAttack() == 0) {
+        else if (getAliveOnDefense() == 0 && getAliveOnAttack() > 0) {
             incrementAttackWins();
             Bukkit.broadcastMessage("Attack win this round");
         }
@@ -132,6 +133,11 @@ public class Game {
         }
     }
 
+    public static void giveMoney(Player p) {
+        String player = p.getName();
+        getMember(player).setMoney(16000);
+    }
+
     public static int getAliveOnMap() {
         return getAliveOnDefense() + getAliveOnAttack();
     }
@@ -154,6 +160,10 @@ public class Game {
 
     public static void incrementMemberKillStat(String player) {
         getMemberTeam(player).getMember(player).addStatKill();
+    }
+
+    public static boolean isPlayersEnough() {
+        return getMembersNumber("attack") * getMembersNumber("defense") > 0 ;
     }
 
     public static void incrementMemberDeathStat(String player) {
@@ -225,6 +235,8 @@ public class Game {
         Team t = new Team(team, 0, 0);
         teams.put(team, t);
 
+        round.setDefenseWins(getTeamWins(team));
+
         Teamchat c = new Teamchat();
         chats.put(team, c);
     }
@@ -250,7 +262,27 @@ public class Game {
         c.removeChatMember(new Teammate(p));
         assert p != null;
         p.sendMessage("You are no more member of team: " + team);
+    }
 
+    public static void swapMemberFromTeamToTeam(String player) {
+        if (Bukkit.getPlayer(player) != null) {
+            Team team = getMemberTeam(player);
+            if (team != null) {
+                Player p = Bukkit.getPlayer(player);
+                Member member = getMember(player);
+                int kills = member.getKills();
+                int deaths = member.getDeaths();
+                if (Objects.equals(team.getTeamname(), "attack")) {
+                    removeMemberFromTeam("attack", player);
+                    addMemberToTeam("defense", player, 800, kills, deaths);
+                } else {
+                    removeMemberFromTeam("defense", player);
+                    addMemberToTeam("attack", player, 800, kills, deaths);
+                }
+                assert p != null;
+                p.sendMessage("You have successfully changed team.");
+            }
+        }
     }
 
     public static int getTeamWins(String team) {
