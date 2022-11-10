@@ -295,4 +295,8 @@ public class Game {
             p.sendMessage("Wins: " + team.getWins());
         }
     }
+
+    public static List<Member> getMembersOfTeam(String team) {
+        return getTeam(team).getMembers();
+    }
 }

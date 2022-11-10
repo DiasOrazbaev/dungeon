@@ -1,4 +1,4 @@
-package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game;
+package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport;
 
 import org.bukkit.Location;
 import org.bukkit.World;

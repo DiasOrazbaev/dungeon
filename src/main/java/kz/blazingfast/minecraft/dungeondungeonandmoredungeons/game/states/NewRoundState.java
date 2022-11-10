@@ -1,5 +1,7 @@
 package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.states;
 
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport.SpawnLogic;
+
 public class NewRoundState extends State {
 
     public NewRoundState(Round round) {
@@ -9,6 +11,8 @@ public class NewRoundState extends State {
         round.setFreezeTime(15);
         round.setBuyTime(20);
         round.setEndTime(5);
+        SpawnLogic.attackSpawnPosition();
+        SpawnLogic.defenseSpawnPosition();
     }
 
     @Override

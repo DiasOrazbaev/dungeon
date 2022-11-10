@@ -14,7 +14,7 @@ public class ReadyState extends State {
 
     @Override
     public void onResume() {
-        round.changeState(new ProcessingState(round));
+        round.changeState(new NewRoundState(round));
     }
 
     @Override

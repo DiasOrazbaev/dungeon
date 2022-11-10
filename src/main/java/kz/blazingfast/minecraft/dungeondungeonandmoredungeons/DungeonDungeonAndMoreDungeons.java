@@ -3,6 +3,7 @@ package kz.blazingfast.minecraft.dungeondungeonandmoredungeons;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.observer.TeamchatCommand;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport.SpawnCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.WeaponEventListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopListener;
