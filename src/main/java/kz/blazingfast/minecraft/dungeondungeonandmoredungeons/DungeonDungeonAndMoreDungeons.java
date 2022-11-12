@@ -4,6 +4,7 @@ import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.observer.TeamchatCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport.SpawnCommand;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport.SpawnUtil;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.WeaponEventListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopListener;
@@ -39,7 +40,7 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.messagesConfigSetup();
         this.registerPluginEvents();
         this.registerPluginCommands();
-
+        SpawnUtil spawnUtil = new SpawnUtil(plugin);
         Game game = new Game();
         game.context();
 

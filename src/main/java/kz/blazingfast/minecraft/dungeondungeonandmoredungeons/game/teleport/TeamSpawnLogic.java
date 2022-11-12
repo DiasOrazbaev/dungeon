@@ -12,7 +12,7 @@ import java.util.Random;
 
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.log;
 
-public class SpawnLogic {
+public class TeamSpawnLogic {
 
     static Coordinates[] attackSpawnCoordinates = {
             new Coordinates(78, 3, 19),
@@ -50,7 +50,7 @@ public class SpawnLogic {
                 return;
             }
 
-            int random = new Random().nextInt(0, 8 - members.size());
+            int random = new Random().nextInt(0, 9 - members.size());
 
             for (Member member : members) {
                 teleportPlayer(Bukkit.getPlayer(member.getMembername()), attackSpawnCoordinates[random].getX(), attackSpawnCoordinates[random].getY(), attackSpawnCoordinates[random].getZ());
@@ -69,7 +69,7 @@ public class SpawnLogic {
                 return;
             }
 
-            int random = new Random().nextInt(0, 10 - members.size());
+            int random = new Random().nextInt(0, 11 - members.size());
 
             for (Member member : members) {
                 teleportPlayer(Bukkit.getPlayer(member.getMembername()), defenseSpawnCoordinates[random].getX(), defenseSpawnCoordinates[random].getY(), defenseSpawnCoordinates[random].getZ());

@@ -49,6 +49,7 @@ public class Game {
                 if (round.getFreezeTime() <= 0 || round.getTime() > 0) {
                     dynamicTimer = round.getTime();
                     if (round.isRunning()) {
+                        sign = round.getSign();
                         FreezeMode.unblockAllPlayers();
                     }
                 }
@@ -97,6 +98,10 @@ public class Game {
 
     }
 
+    public static boolean roundCanBeEnd() {
+        return getAliveOnAttack() + getAliveOnDefense() > 0;
+    }
+
     public static void roundForceWinCondition() {
         if (getAliveOnAttack() == 0 && getAliveOnDefense() > 0) {
             incrementDefenseWins();
@@ -112,19 +117,21 @@ public class Game {
             round.incrementRound();
             Bukkit.broadcastMessage("Unknown state, result is tie");
         }
+
+        roundEndState();
     }
 
     public void roundTimeOverWinCondition() {
-        sign = "<Round end>";
         if (getAliveOnDefense() > 0 && getAliveOnAttack() == 0) {
             incrementDefenseWins();
             Bukkit.broadcastMessage("Defense win this round");
         }
-        round.getState().onNewRound();
+
+        roundEndState();
     }
 
-    public void roundEndState() {
-        sign = "Round end in: " + round.getEndTime();
+    public static void roundEndState() {
+        round.setSign("<Round end>");
         if (round.getEndTime() == 0) {
             round.getState().onNewRound();
             Game.respawnMembers();
