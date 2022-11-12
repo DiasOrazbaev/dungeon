@@ -3,6 +3,7 @@ package kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class WeaponLogic {
+    public static final int HE_ID = 465;
+    public static final int SMOKE_ID = 236;
+    public static final int FLASHBACK_ID = 845;
 
     public static boolean isGun(@NotNull ItemStack itemInMainHand) {
 
@@ -28,6 +32,17 @@ public class WeaponLogic {
 
         assert type != null;
         return type.equals("rifle") || type.equals("rifleWithScope") || type.equals("sniper") || type.equals("pistol");
+    }
+
+    public static boolean isGrenade(@NotNull ItemStack itemStack) {
+        var meta = itemStack.getItemMeta();
+        assert meta != null;
+        String type = meta.getPersistentDataContainer().get(
+                Objects.requireNonNull(NamespacedKey.fromString("gun_type")),
+                PersistentDataType.STRING
+        );
+        System.out.println(type);
+        return type != null && type.equals("grenade");
     }
 
     public static void shoot(@NotNull ItemStack gun, Player player) {
@@ -179,8 +194,8 @@ public class WeaponLogic {
     }
 
     public static String coloredBullets(int currentMagazine, int fullMagazin) {
-        if (fullMagazin/3 >= currentMagazine) return "" +  ChatColor.RED + currentMagazine;
-        return  "" + ChatColor.WHITE + currentMagazine;
+        if (fullMagazin / 3 >= currentMagazine) return "" + ChatColor.RED + currentMagazine;
+        return "" + ChatColor.WHITE + currentMagazine;
     }
 
     public static String getName(@NotNull ItemStack gun) {
