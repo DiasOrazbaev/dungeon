@@ -85,4 +85,52 @@ public class Director {
         builder.setName(getInstance().getConfig().getString("util." + armor + ".name"));
         builder.setCost(Integer.parseInt(Objects.requireNonNull(getInstance().getConfig().getString("util." + armor + ".cost"))));
     }
+
+    // HE - CYAN_DYE
+    public void build_he(@Nonnull WeaponBuilder builder) {
+        String grenade = "he";
+        builder.setItemMeta(null);
+        builder.setItemStack(null);
+        builder.setMaterial(Material.CYAN_DYE);
+        builder.setType("grenade");
+        builder.setReward(getInstance().getConfig().getInt("grenade." + grenade + ".type"));
+        builder.setName(getInstance().getConfig().getString("grenade." + grenade + ".name"));
+        builder.setCost(Integer.parseInt(Objects.requireNonNull(getInstance().getConfig().getString("grenade." + grenade + ".cost"))));
+    }
+
+    // smoke - WHITE_DYE
+    public void build_smoke(@Nonnull WeaponBuilder builder) {
+        String grenade = "smoke";
+        builder.setItemMeta(null);
+        builder.setItemStack(null);
+        builder.setMaterial(Material.WHITE_DYE);
+        builder.setType("grenade");
+        builder.setReward(getInstance().getConfig().getInt("grenade." + grenade + ".type"));
+        builder.setName(getInstance().getConfig().getString("grenade." + grenade + ".name"));
+        builder.setCost(Integer.parseInt(Objects.requireNonNull(getInstance().getConfig().getString("grenade." + grenade + ".cost"))));
+    }
+
+    // flashback - LIME_DYE
+    public void build_flashback(@Nonnull WeaponBuilder builder) {
+        String grenade = "flashback";
+        builder.setItemMeta(null);
+        builder.setItemStack(null);
+        builder.setMaterial(Material.LIME_DYE);
+        builder.setType("grenade");
+        builder.setReward(getInstance().getConfig().getInt("grenade." + grenade + ".type"));
+        builder.setName(getInstance().getConfig().getString("grenade." + grenade + ".name"));
+        builder.setCost(Integer.parseInt(Objects.requireNonNull(getInstance().getConfig().getString("grenade." + grenade + ".cost"))));
+    }
+
+    // fire - MAGENTA_DYE
+    public void build_fire(@Nonnull WeaponBuilder builder) {
+        var grenade = "fire";
+        builder.setItemMeta(null);
+        builder.setItemStack(null);
+        builder.setMaterial(Material.MAGENTA_DYE);
+        builder.setType("grenade");
+        builder.setReward(getInstance().getConfig().getInt("grenade." + grenade + ".type"));
+        builder.setName(getInstance().getConfig().getString("grenade." + grenade + ".name"));
+        builder.setCost(Integer.parseInt(Objects.requireNonNull(getInstance().getConfig().getString("grenade." + grenade + ".cost"))));
+    }
 }

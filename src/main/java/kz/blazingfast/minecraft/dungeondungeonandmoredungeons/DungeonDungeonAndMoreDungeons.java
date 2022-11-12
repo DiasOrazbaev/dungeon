@@ -4,6 +4,7 @@ import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.commands.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.*;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.observer.TeamchatCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.game.teleport.SpawnCommand;
+import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.GrenadeListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.WeaponEventListener;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand;
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopListener;
@@ -18,7 +19,7 @@ import java.util.Objects;
 public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements Listener {
 
     public static DungeonDungeonAndMoreDungeons plugin;
-    public static String hostname, port, database, username, dbpassword, table ;
+    public static String hostname, port, database, username, dbpassword, table;
 
     public static String LOGIN_CMD_USAGE, REGISTER_CMD_USAGE;
     public static String NOPERM_MSG;
@@ -39,11 +40,12 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.messagesConfigSetup();
         this.registerPluginEvents();
         this.registerPluginCommands();
+        GrenadeListener.enableTask(plugin);
 
         Game game = new Game();
         game.context();
 
-        }
+    }
 
     @Override
     public void onDisable() {
@@ -63,7 +65,8 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         this.getServer().getPluginManager().registerEvents(new ServerEventListener(), this);
         this.getServer().getPluginManager().registerEvents(new WeaponEventListener(), this);
         this.getServer().getPluginManager().registerEvents(new InventoryShopListener(), this);
-        this.getServer().getPluginManager().registerEvents(new GameEventListener(),  this);
+        this.getServer().getPluginManager().registerEvents(new GameEventListener(), this);
+        this.getServer().getPluginManager().registerEvents(new GrenadeListener(), this);
     }
 
     private void registerPluginCommands() {
@@ -114,7 +117,7 @@ public final class DungeonDungeonAndMoreDungeons extends JavaPlugin implements L
         LOGIN_CMD_USAGE = cfgShortcut("messages.login_cmd_usage");
         REGISTER_CMD_USAGE = cfgShortcut("messages.register_cmd_usage");
         NOPERM_MSG = cfgShortcut("messages.noperm_msg");
-        BAD_PASSWORD =  cfgShortcut("messages.bad_password");
+        BAD_PASSWORD = cfgShortcut("messages.bad_password");
         PASSWORD_NOMATCH = cfgShortcut("messages.password_nomatch");
         ALREADY_REGISTERED = cfgShortcut("messages.already_registered");
         ALREADY_LOGGED_IN = cfgShortcut("messages.already_logged_in");

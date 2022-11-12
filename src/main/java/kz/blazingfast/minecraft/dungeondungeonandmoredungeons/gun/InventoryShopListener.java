@@ -9,6 +9,7 @@ import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.builder.Weapon
 import kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.builder.WeaponBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,13 +18,21 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
+
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.DungeonDungeonAndMoreDungeons.log;
 import static kz.blazingfast.minecraft.dungeondungeonandmoredungeons.gun.InventoryShopCommand.*;
 
-public class InventoryShopListener implements Listener{
+public class InventoryShopListener implements Listener {
+    public static final int HE_ID = 465;
+    public static final int SMOKE_ID = 236;
+    public static final int FLASHBACK_ID = 845;
+    public static final int FIRE_ID = 537;
 
     @EventHandler
     public void clickEvent(InventoryClickEvent event) {
@@ -32,7 +41,7 @@ public class InventoryShopListener implements Listener{
         try {
             if (Game.isMember(p.getName())) {
                 Member member = Game.getMember(p.getName());
-                if (event.getView().getTitle().equalsIgnoreCase(ChatColor.WHITE + "Your money: " + ChatColor.DARK_GREEN + "$"+ member.getMoney())) {
+                if (event.getView().getTitle().equalsIgnoreCase(ChatColor.WHITE + "Your money: " + ChatColor.DARK_GREEN + "$" + member.getMoney())) {
                     if (Objects.requireNonNull(event.getCurrentItem()).hasItemMeta() && Objects.requireNonNull(event.getCurrentItem().getItemMeta()).hasDisplayName()) {
                         switch (Objects.requireNonNull(event.getCurrentItem()).getType()) {
                             case BLACK_DYE -> {
@@ -172,6 +181,66 @@ public class InventoryShopListener implements Listener{
                                     p.sendMessage("Your money balance is not enough to purchase ARMOR");
                                 }
                             }
+                            // HE
+                            case CYAN_DYE -> {
+                                p.closeInventory();
+                                try {
+                                    if (member.canBuy(HE_data.getCost())) {
+                                        member.subtractMoney(HE_data.getCost());
+                                        handleGrenade(p, HE, HE_data, HE_ID);
+                                        p.sendMessage(String.format("to %s given %s", p.getName(), HE_data.getName()));
+                                    } else {
+                                        p.sendMessage(String.format("Your money balance is not enough to purchase %s", HE_data.getName()));
+                                    }
+                                } catch (IllegalArgumentException e) {
+                                    log("Achtung! ArmorShopCMD exception occurred: Incorrect name of gun: " + e.getMessage());
+                                }
+                            }
+                            // SMOKE
+                            case WHITE_DYE -> {
+                                p.closeInventory();
+                                try {
+                                    if (member.canBuy(SMOKE_data.getCost())) {
+                                        member.subtractMoney(SMOKE_data.getCost());
+                                        handleGrenade(p, SMOKE, SMOKE_data, SMOKE_ID);
+                                        p.sendMessage(String.format("to %s given %s", p.getName(), FLASHBACK_data.getName()));
+                                    } else {
+                                        p.sendMessage(String.format("Your money balance is not enough to purchase %s", SMOKE_data.getName()));
+                                    }
+                                } catch (IllegalArgumentException e) {
+                                    log("Achtung! ArmorShopCMD exception occurred: Incorrect name of gun: " + e.getMessage());
+                                }
+                            }
+                            // FlashBack
+                            case LIME_DYE -> {
+                                p.closeInventory();
+                                try {
+                                    if (member.canBuy(FLASHBACK_data.getCost())) {
+                                        member.subtractMoney(FLASHBACK_data.getCost());
+                                        handleGrenade(p, FLASHBACK, FLASHBACK_data, FLASHBACK_ID);
+                                        p.sendMessage(String.format("to %s given %s", p.getName(), FLASHBACK_data.getName()));
+                                    } else {
+                                        p.sendMessage(String.format("Your money balance is not enough to purchase %s", FLASHBACK_data.getName()));
+                                    }
+                                } catch (IllegalArgumentException e) {
+                                    log("Achtung! ArmorShopCMD exception occurred: Incorrect name of gun: " + e.getMessage());
+                                }
+                            }
+
+                            case MAGENTA_DYE -> {
+                                p.closeInventory();
+                                try {
+                                    if (member.canBuy(FIRE_data.getCost())) {
+                                        member.subtractMoney(FIRE_data.getCost());
+                                        handleGrenade(p, FIRE, FIRE_data, FIRE_ID);
+                                        p.sendMessage(String.format("to %s given %s", p.getName(), FIRE_data.getName()));
+                                    } else {
+                                        p.sendMessage(String.format("Your money balance is not enough to purchase %s", FIRE_data.getName()));
+                                    }
+                                } catch (IllegalArgumentException e) {
+                                    log("Achtung! ArmorShopCMD exception occurred: Incorrect name of gun: " + e.getMessage());
+                                }
+                            }
                         }
                     } else {
                         event.setCancelled(true);
@@ -185,12 +254,43 @@ public class InventoryShopListener implements Listener{
         }
     }
 
-    @EventHandler(ignoreCancelled=true)
-    public void onDrop(PlayerDropItemEvent event){
+    @EventHandler(ignoreCancelled = true)
+    public void onDrop(PlayerDropItemEvent event) {
         Material type = event.getItemDrop().getItemStack().getType();
-        if (type == Material.BLACK_DYE || type == Material.BLUE_DYE || type == Material.BROWN_DYE || type == Material.GREEN_DYE || type == Material.LEATHER_HELMET || type == Material.LEATHER_CHESTPLATE || type == Material.GRAY_DYE || type == Material.YELLOW_DYE || type == Material.RED_DYE){
+        if (type == Material.BLACK_DYE || type == Material.BLUE_DYE || type == Material.BROWN_DYE || type == Material.GREEN_DYE || type == Material.LEATHER_HELMET || type == Material.LEATHER_CHESTPLATE || type == Material.GRAY_DYE || type == Material.YELLOW_DYE || type == Material.RED_DYE) {
             event.setCancelled(true);
         }
+    }
+
+    public static void handleGrenade(@Nonnull Player player, ItemStack grenade, Weapon weapon, int id) {
+        var wp = new WeaponBuilder();
+        var g = wp.copy(grenade);
+
+        var meta = g.getItemMeta();
+        assert meta != null;
+        List<String> lore = meta.getLore();
+
+        assert lore != null;
+        lore.add("OWNER: " + ChatColor.LIGHT_PURPLE + player.getName());
+
+        meta.setLore(lore);
+
+        switch (id) {
+            case (HE_ID) ->
+                    meta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString("type")), PersistentDataType.INTEGER, HE_ID);
+            case (SMOKE_ID) ->
+                    meta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString("type")), PersistentDataType.INTEGER, SMOKE_ID);
+            case (FLASHBACK_ID) ->
+                    meta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString("type")), PersistentDataType.INTEGER, FLASHBACK_ID);
+            case (FIRE_ID) -> {
+                meta.getPersistentDataContainer().set(Objects.requireNonNull(NamespacedKey.fromString("type")), PersistentDataType.INTEGER, FIRE_ID);
+                System.out.println("fire created");
+            }
+        }
+
+        meta.setDisplayName(String.format("%s", ChatColor.WHITE + weapon.getName()));
+        g.setItemMeta(meta);
+        player.getInventory().addItem(g);
     }
 
     public static void handle(@NotNull ItemStack gun, @NotNull Weapon gun_data, @NotNull Player p) {
@@ -203,7 +303,7 @@ public class InventoryShopListener implements Listener{
         List<String> lore = meta.getLore();
 
         assert lore != null;
-        lore.add("OWNER: " + ChatColor.LIGHT_PURPLE +  p.getName());
+        lore.add("OWNER: " + ChatColor.LIGHT_PURPLE + p.getName());
 
         meta.setLore(lore);
 

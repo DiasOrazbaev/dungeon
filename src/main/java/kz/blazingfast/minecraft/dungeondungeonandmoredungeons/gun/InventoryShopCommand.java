@@ -18,8 +18,8 @@ import javax.annotation.Nonnull;
 
 public class InventoryShopCommand implements CommandExecutor {
 
-    public static ItemStack AK47, M4A1S, AWP, SG553, GLOCK, USP, ARMOR, HELMET;
-    public static Weapon AK47_data, M4A1S_data, AWP_data, SG553_data, GLOCK_data, USP_data, ARMOR_data, HELMET_data;
+    public static ItemStack AK47, M4A1S, AWP, SG553, GLOCK, USP, ARMOR, HELMET, HE, SMOKE, FLASHBACK, FIRE;
+    public static Weapon AK47_data, M4A1S_data, AWP_data, SG553_data, GLOCK_data, USP_data, ARMOR_data, HELMET_data, HE_data, SMOKE_data, FLASHBACK_data, FIRE_data;
 
     @Override
     public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
@@ -29,7 +29,7 @@ public class InventoryShopCommand implements CommandExecutor {
                 if (Game.isMember(p.getName())) {
                     Member member = Game.getMember(p.getName());
                     if (Game.isBuyTime()) {
-                        Inventory gui = Bukkit.createInventory(p, 9, ChatColor.WHITE + "Your money: " + ChatColor.DARK_GREEN + "$"+ member.getMoney());
+                        Inventory gui = Bukkit.createInventory(p, 18, ChatColor.WHITE + "Your money: " + ChatColor.DARK_GREEN + "$" + member.getMoney());
 
                         WeaponBuilder builder = new WeaponBuilder();
                         Director director = new Director();
@@ -66,7 +66,23 @@ public class InventoryShopCommand implements CommandExecutor {
                         HELMET = builder.getResult();
                         HELMET_data = builder.getResultData();
 
-                        ItemStack[] menu_items = {AK47, M4A1S, AWP, SG553, GLOCK, USP, ARMOR, HELMET};
+                        director.build_smoke(builder);
+                        SMOKE = builder.getResult();
+                        SMOKE_data = builder.getResultData();
+
+                        director.build_flashback(builder);
+                        FLASHBACK = builder.getResult();
+                        FLASHBACK_data = builder.getResultData();
+
+                        director.build_he(builder);
+                        HE = builder.getResult();
+                        HE_data = builder.getResultData();
+
+                        director.build_fire(builder);
+                        FIRE = builder.getResult();
+                        FIRE_data = builder.getResultData();
+
+                        ItemStack[] menu_items = {AK47, M4A1S, AWP, SG553, GLOCK, USP, ARMOR, HELMET, SMOKE, FLASHBACK, HE, FIRE};
                         gui.setContents(menu_items);
                         p.openInventory(gui);
                     } else {
